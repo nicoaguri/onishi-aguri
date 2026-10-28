@@ -3,413 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>大西亜玖璃 ディスコグラフィ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>大西亜玖璃 ディスコグラフィー</title>
     <style>
         :root {
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-main: #212529;
-            --text-sub: #6c757d;
-            --border-color: #dee2e6;
-            --accent-color: #343a40;
-            --link-color: #0066cc;
-            --link-hover: #004080;
+            --primary-color: #ffb6c1; /* あぐぽんイメージのピンク */
+            --primary-dark: #ff91a4;
+            --text-color: #333;
+            --bg-color: #fcf8f8;
+            --card-bg: #fff;
+            --spotify-color: #1DB954;
+            --apple-color: #fc3c44;
         }
-
-        * {
-            box-sizing: border-box;
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             margin: 0;
             padding: 0;
-            font-family: 'Noto Sans JP', 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
             line-height: 1.6;
-            padding: 40px 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
         }
 
         header {
+            background: linear-gradient(135deg, #ffe4e1, var(--primary-color));
             text-align: center;
-            margin-bottom: 50px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 30px;
+            padding: 50px 20px;
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.15);
         }
 
         header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            margin-bottom: 10px;
+            margin: 0;
+            font-size: 2.6rem;
+            letter-spacing: 2px;
         }
 
         header p {
-            font-size: 0.95rem;
-            color: var(--text-sub);
+            margin: 10px 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            margin: 40px 0 20px 0;
-            border-left: 4px solid var(--accent-color);
-            padding-left: 12px;
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
-        .disc-list {
+        /* タブボタンのスタイル */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #f0e6e6;
+            padding-bottom: 15px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 10px 24px;
+            cursor: pointer;
+            color: #888;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary-dark);
+            background-color: #fff;
+        }
+
+        .tab-btn.active {
+            color: #fff;
+            background-color: var(--primary-dark);
+            box-shadow: 0 4px 10px rgba(255, 145, 164, 0.4);
+        }
+
+        /* タブコンテンツの表示・非表示 */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* カードのグリッドレイアウト */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            border: 1px solid #f0e6e6;
         }
 
-        .disc-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(255, 182, 193, 0.3);
+        }
+
+        .card-body {
             padding: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-            transition: box-shadow 0.2s ease;
-        }
-
-        .disc-card:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        .disc-header {
+            flex-grow: 1;
             display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-            gap: 10px;
+            flex-direction: column;
         }
 
-        .badge {
+        .badge-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .release-type {
+            display: inline-block;
             font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-sub);
-            background-color: #e9ecef;
+            font-weight: bold;
             padding: 3px 10px;
-            border-radius: 4px;
+            border-radius: 20px;
             text-transform: uppercase;
         }
 
+        .single .release-type { background-color: #e3f2fd; color: #1e88e5; }
+        .digital .release-type { background-color: #e8f5e9; color: #2e7d32; }
+        .album .release-type { background-color: #f3e5f5; color: #8e24aa; }
+        .mini-album .release-type { background-color: #fff3e0; color: #f57c00; }
+
         .release-date {
             font-size: 0.85rem;
-            color: var(--text-sub);
+            color: #888;
         }
 
-        .disc-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            margin-bottom: 10px;
+        .item-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0 0 12px 0;
+            color: #111;
+            line-height: 1.4;
         }
 
-        .streaming-links {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 12px;
+        .tie-up {
             font-size: 0.85rem;
+            color: #666;
+            background-color: #fff5f5;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--primary-color);
         }
 
-        .streaming-links a {
-            color: var(--link-color);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-weight: 500;
+        /* アコーディオン設定 */
+        details {
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            background-color: #fafafa;
+            overflow: hidden;
         }
 
-        .streaming-links a:hover {
-            color: var(--link-hover);
-            text-decoration: underline;
+        summary {
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            outline: none;
+            color: #555;
+            transition: background 0.2s;
+        }
+
+        summary:hover {
+            background-color: #f0f0f0;
         }
 
         .track-list {
+            padding: 10px 15px;
+            margin: 0;
             list-style: none;
-            margin: 12px 0;
-            font-size: 0.9rem;
-            border-top: 1px solid #f1f3f5;
-            padding-top: 10px;
+            border-top: 1px solid #eee;
+            background-color: #fff;
+            font-size: 0.85rem;
         }
 
         .track-list li {
-            padding: 3px 0;
-            color: #495057;
+            padding: 6px 0;
+            border-bottom: 1px dashed #eee;
+            color: #444;
         }
 
-        .tieup {
-            font-size: 0.85rem;
-            color: var(--text-sub);
-            margin-top: 10px;
-            background-color: #f8f9fa;
-            padding: 8px 12px;
-            border-radius: 4px;
-            border-left: 3px solid #ced4da;
+        .track-list li:last-child {
+            border-bottom: none;
         }
+        
+        .track-list .inst {
+            color: #999;
+        }
+
+        /* 配信リンクボタン */
+        .streaming-links {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+            padding-top: 10px;
+        }
+
+        .btn-stream {
+            flex: 1;
+            text-align: center;
+            padding: 8px 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 6px;
+            color: #fff;
+            transition: opacity 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .btn-stream:hover {
+            opacity: 0.85;
+        }
+
+        .btn-spotify { background-color: var(--spotify-color); }
+        .btn-apple { background-color: var(--apple-color); }
 
         footer {
             text-align: center;
-            margin-top: 60px;
-            font-size: 0.8rem;
-            color: var(--text-sub);
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
-
-        @media (max-width: 600px) {
-            body { padding: 20px 10px; }
-            header h1 { font-size: 1.5rem; }
+            padding: 40px 20px;
+            font-size: 0.9rem;
+            color: #888;
+            border-top: 1px solid #eee;
+            margin-top: 80px;
+            background-color: #fff;
         }
     </style>
 </head>
 <body>
 
+    <header>
+        <h1>大西亜玖璃 Discography</h1>
+        <p>Solo Artist Activity 2021 - Present</p>
+    </header>
+
     <div class="container">
-        <header>
-            <h1>大西亜玖璃 ディスコグラフィ</h1>
-            <p>アーティスト活動におけるリリース楽曲一覧</p>
-        </header>
-
-        <!-- シングル -->
-        <div class="section-title">シングル</div>
-        <div class="disc-list">
-
-            <!-- 1st -->
-            <div class="disc-card">
-                <div class="disc-header">
-                    <span class="badge">1st Single</span>
-                    <span class="release-date">2021年3月3日 発売</span>
-                </div>
-                <div class="disc-title">本日は晴天なり</div>
-                <div class="streaming-links">
-                    <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" rel="noopener noreferrer">🎵 Apple Music</a>
-                    <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" rel="noopener noreferrer">💚 Spotify</a>
-                </div>
-                <ul class="track-list">
-                    <li>1. 本日は晴天なり</li>
-                </ul>
-                <div class="tieup">アーティストデビューシングル</div>
-            </div>
-
-            <!-- 2nd -->
-            <div class="disc-card">
-                <div class="disc-header">
-                    <span class="badge">2nd Single</span>
-                    <span class="release-date">2021年8月4日 発売</span>
-                </div>
-                <div class="disc-title">Elder flower / 初恋カラーズ</div>
-                <div class="streaming-links">
-                    <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" rel="noopener noreferrer">🎵 Apple Music</a>
-                    <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" rel="noopener noreferrer">💚 Spotify</a>
-                </div>
-                <ul class="track-list">
-                    <li>1. Elder flower</li>
-                    <li>2. 初恋カラーズ</li>
-                </ul>
-                <div class="tieup">タイアップ：TVアニメ『精霊幻想記』エンディングテーマ（Elder flower）</div>
-            </div>
-
-            <!-- 3rd -->
-            <div class="disc-card">
-                <div class="disc-header">
-                    <span class="badge">3rd Single</span>
-                    <span class="release-date">2022年4月13日 発売</span>
-                </div>
-                <div class="disc-title">ジェリーフィッシュな君へ</div>
-                <div class="streaming-links">
-                    <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" rel="noopener noreferrer">🎵 Apple Music</a>
-                    <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" rel="noopener noreferrer">💚 Spotify</a>
-                </div>
-                <ul class="track-list">
-                    <li>1. ジェリーフィッシュな君へ</li>
-                </ul>
-                <div class="tieup">タイアップ：TVアニメ『このヒーラー、めんどくさい』オープニングテーマ</div>
-            </div>
-
-            <!-- 4th -->
-            <div class="disc-card">
-                <div class="disc-header">
-                    <span class="badge">4th Single</span>
-                    <span class="release-date">2022年10月19日 発売</span>
-                </div>
-                <div class="disc-title">はじまるウェルカム</div>
-                <div class="streaming-links">
-                    <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" rel="noopener noreferrer">🎵 Apple Music</a>
-                    <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" rel="noopener noreferrer">💚 Spotify</a>
-                </div>
-                <ul class="track-list">
-                    <li>1. はじまるウェルカム</li>
-                </ul>
-                <div class="tieup">タイアップ：TVアニメ『新米錬金術師の店舗経営』オープニングテーマ</div>
-            </div>
-
-            <!-- 5th -->
-            <div class="disc-card">
-                <div class="disc-header">
-                    <span class="badge">5th Single</span>
-                    <span class="release-date">2023年10月25日 発売</span>
-                </div>
-                <div class="disc-title">夢で逢えなくても / 指先ハート</div>
-                <div class="streaming-links">
-                    <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" rel="noopener noreferrer">🎵 Apple Music</a>
-                    <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" rel="noopener noreferrer">💚 Spotify</a>
-                </div>
-                <ul class="track-list">
-                    <li>1. 夢で逢えなくても</li>
-                    <li>2. 指先ハート</li>
-                </ul>
-                <div class="tieup">両A面シングル</div>
-            </div>
-
-            <!-- 6th -->
-            <div class="disc-card">
-                <div class="disc-header">
-                    <span class="badge">6th Single</span>
-                    <span class="release-date">2024年2月28日 発売</span>
-                </div>
-                <div class="disc-title">曖昧ガール</div>
-                <div class="streaming-links">
-                    <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" rel="noopener noreferrer">🎵 Apple Music</a>
-                    <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" rel="noopener noreferrer">💚 Spotify</a>
-                </div>
-                <ul class="track-list">
-                    <li>1. 曖昧ガール</li>
-                </ul>
-                <div class="tieup">タイアップ：TVアニメ『佐々木とピーちゃん』エンディングテーマ</div>
-            </div>
-
-            <!-- 7th -->
-            <div class="disc-card">
-                <div class="disc-header">
-                    <span class="badge">7th Single</span>
-                    <span class="release-date">2024年11月20日 発売</span>
-                </div>
-                <div class="disc-title">アウフタクト</div>
-                <div class="streaming-links">
-                    <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" rel="noopener noreferrer">🎵 Apple Music</a>
-                    <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" rel="noopener noreferrer">💚 Spotify</a>
-                </div>
-                <ul class="track-list">
-                    <li>1. アウフタクト</li>
-                </ul>
-                <div class="tieup">タイアップ：TVアニメ『精霊幻想記2』オープニングテーマ / BS11『アニゲー☆イレブン!』エンディングテーマ</div>
-            </div>
-
-            <!-- 8th -->
-            <div class="disc-card">
-                <div class="disc-header">
-                    <span class="badge">8th Single</span>
-                    <span class="release-date">2025年4月30日 発売</span>
-                </div>
-                <div class="disc-title">イニミニマニモ</div>
-                <div class="streaming-links">
-                    <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" rel="noopener noreferrer">🎵 Apple Music</a>
-                    <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" rel="noopener noreferrer">💚 Spotify</a>
-                </div>
-                <ul class="track-list">
-                    <li>1. イニミニマニモ</li>
-                </ul>
-                <div class="tieup">タイアップ：TVアニメ『スライム倒して300年、知らないうちにレベルMAXになってました 〜そのに〜』エンディングテーマ</div>
-            </div>
-
-            <!-- 9th -->
-            <div class="disc-card">
-                <div class="disc-header">
-                    <span class="badge">9th Single</span>
-                    <span class="release-date">2026年8月5日 発売</span>
-                </div>
-                <div class="disc-title">グッバイ・ララバイ</div>
-                <div class="streaming-links">
-                    <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" rel="noopener noreferrer">🎵 Apple Music</a>
-                    <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" rel="noopener noreferrer">💚 Spotify</a>
-                </div>
-                <ul class="track-list">
-                    <li>1. グッバイ・ララバイ</li>
-                </ul>
-                <div class="tieup">タイアップ：TVアニメ『ブチ切れ令嬢は報復を誓いました。』エンディングテーマ</div>
-            </div>
-
+        
+        <!-- タブボタン -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('singles')">シングル</button>
+            <button class="tab-btn" onclick="switchTab('albums')">アルバム</button>
+            <button class="tab-btn" onclick="switchTab('mini-albums')">コンセプトミニアルバム</button>
         </div>
+        
+        <!-- ==========================================
+             シングル TAB (1stが先頭、下にスクロールで9thへ)
+             ========================================== -->
+        <div id="singles" class="tab-content active">
+            <div class="grid">
+                
+                <!-- 1st Single -->
+                <div class="card single">
+                    <div class="card-body">
+                        <div class="badge-row">
+                            <span class="release-type">1st Single</span>
+                            <span class="release-date">2021/03/03</span>
+                        </div>
+                        <div class="item-title">本日は晴天なり</div>
+                        <div class="tie-up">記念すべきソロアーティストデビューシングル。</div>
+                        <details>
+                            <summary>収録楽曲を開く</summary>
+                            <ul class="track-list">
+                                <li>1. 本日は晴天なり</li>
+                                <li>2. Ready to fly</li>
+                                <li class="inst">3. 本日は晴天なり (Instrumental)</li>
+                                <li class="inst">4. Ready to fly (Instrumental)</li>
+                            </ul>
+                        </details>
+                        <div class="streaming-links">
+                            <a href="#" class="btn-stream btn-spotify" target="_blank">🫛 Spotify</a>
+                            <a href="#" class="btn-stream btn-apple" target="_blank">🍎 Apple Music</a>
+                        </div>
+                    </div>
+                </div>
 
-        <!-- アルバム -->
-        <div class="section-title">アルバム</div>
-        <div class="disc-list">
-            <div class="disc-card">
-                <div class="disc-header">
-                    <span class="badge">1st Album</span>
-                    <span class="release-date">2023年5月3日 発売</span>
-                </div>
-                <div class="disc-title">Do you agree?</div>
-                <div class="streaming-links">
-                    <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" rel="noopener noreferrer">🎵 Apple Music</a>
-                    <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" rel="noopener noreferrer">💚 Spotify</a>
-                </div>
-                <ul class="track-list">
-                    <li>全10曲収録（「本日は晴天なり」「ジェリーフィッシュな君へ」「はじまるウェルカム」等のシングル表題曲を含む）</li>
-                </ul>
-                <div class="tieup">1stアルバム</div>
-            </div>
-        </div>
-
-        <!-- コンセプトミニアルバム -->
-        <div class="section-title">コンセプトミニアルバム</div>
-        <div class="disc-list">
-            <div class="disc-card">
-                <div class="disc-header">
-                    <span class="badge">Concept Mini Album</span>
-                    <span class="release-date">2025年10月22日 発売</span>
-                </div>
-                <div class="disc-title">Rock&Roll Lady Girl</div>
-                <div class="streaming-links">
-                    <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" rel="noopener noreferrer">🎵 Apple Music</a>
-                    <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" rel="noopener noreferrer">💚 Spotify</a>
-                </div>
-                <ul class="track-list">
-                    <li>1. エンダー</li>
-                    <li>2. 裸足のスタンプ</li>
-                    <li>3. 恋のサチュレーション</li>
-                    <li>4. アンブレラビート</li>
-                    <li>5. Rock&Roll Lady Girl</li>
-                </ul>
-                <div class="tieup">コンセプト：ロックンロール</div>
-            </div>
-
-            <div class="disc-card">
-                <div class="disc-header">
-                    <span class="badge">Concept Mini Album</span>
-                    <span class="release-date">2025年10月22日 発売</span>
-                </div>
-                <div class="disc-title">失恋モノクローム</div>
-                <div class="streaming-links">
-                    <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" rel="noopener noreferrer">🎵 Apple Music</a>
-                    <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" rel="noopener noreferrer">💚 Spotify</a>
-                </div>
-                <ul class="track-list">
-                    <li>1. 世界の全てがさよなら</li>
-                    <li>2. いつもどおりに</li>
-                    <li>3. 今日が過ぎても</li>
-                    <li>4. 失恋を君に</li>
-                    <li>5. にじんでく</li>
-                </ul>
-                <div class="tieup">コンセプト：失恋</div>
-            </div>
-        </div>
-
-        <footer>
-            <p>&copy; Aguri Onishi Discography</p>
-        </footer>
-    </div>
-
-</body>
-</html>
+                <!-- 2nd Single -->
+                <div class="card single">
+                    <div class="card-body">
+                        <div class="badge-row">
+                            <span class="release-type">2nd Single</span>
+                            <span class="release-date">2021/08/04</span>
+                        </div>
+                        <div class="item-title">Elder flower／初恋カラーズ</div>
+                        <div class="tie-up">TVアニメ「精霊幻想記」EDテーマ（Elder flower）</div>
+                        <details>
+                            <summary>収録楽曲を開く</summary>
+                            <ul class="track-list">
+                                <li>1. Elder flower</li>
+                                <li>2. 初恋カラーズ</li>
+                                <li class="inst">3. Elder flower (Instrumental)</li>
+                                <li class="inst">4. 初恋カラーズ (Instrumental)</li>
+                            </ul>
+                        </details>
+                        <div class="streaming-links">
