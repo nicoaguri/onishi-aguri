@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大西亜玖璃 楽曲データベース 🎵</title>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-pink: #ff7bac;
+            --light-pink: #ffe3ed;
+            --deep-pink: #d94d82;
+            --accent-yellow: #ffeb3b;
+            --bg-color: #fff5f8;
+            --card-bg: #ffffff;
+            --text-color: #55444b;
+            --shadow: 0 8px 25px rgba(255, 123, 172, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-pink), #ffaecb);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom-left-radius: 35px;
+            border-bottom-right-radius: 35px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* タブ切り替えボタン */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background-color: white;
+            border: 2px solid var(--primary-pink);
+            color: var(--primary-pink);
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-3px);
+            background-color: var(--light-pink);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-pink);
+            color: white;
+            box-shadow: 0 6px 15px rgba(255, 123, 172, 0.4);
+        }
+
+        /* セクション表示切り替え */
+        .section-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* グリッドレイアウト */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            border: 3px solid #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(255, 123, 172, 0.25);
+            border-color: var(--light-pink);
+        }
+
+        .badge {
+            display: inline-block;
+            background-color: var(--light-pink);
+            color: var(--deep-pink);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 8px;
+        }
+
+        .card .date {
+            font-size: 0.85rem;
+            color: #887780;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .track-list {
+            list-style: none;
+            margin-bottom: 15px;
+            background-color: #faf4f7;
+            padding: 12px 15px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+
+        .track-list li {
+            padding: 4px 0;
+            border-bottom: 1px dashed #f0d8e2;
+        }
+
+        .track-list li:last-child {
+            border-bottom: none;
+        }
+
+        .tieup {
+            font-size: 0.8rem;
+            color: var(--deep-pink);
+            background: #fff0f5;
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-top: auto;
+            font-weight: 500;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.2);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.85rem;
+            color: #998890;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+            .tabs { gap: 8px; }
+            .tab-btn { padding: 10px 18px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🎀 Aguri Onishi Discography 🎀</h1>
+        <p>大西亜玖璃さんのシングル・アルバム・コンセプトミニアルバムデータベース</p>
+    </header>
+
+    <div class="container">
+        <!-- タブナビゲーション -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('single')">🎵 シングル (1st〜9th)</button>
+            <button class="tab-btn" onclick="switchTab('album')">💿 フルアルバム</button>
+            <button class="tab-btn" onclick="switchTab('mini')">✨ コンセプトミニアルバム</button>
+        </div>
+
+        <!-- 1. シングルセクション -->
+        <div id="single" class="section-content active">
+            <div class="grid">
+                <!-- 9th -->
+                <div class="card">
+                    <button class="favorite-btn" onclick="toggleFav(this)">🤍</button>
+                    <div>
+                        <span class="badge">9th シングル</span>
+                        <h3>グッバイ・ララバイ</h3>
+                        <div class="date">2026年8月5日 発売</div>
+                        <ul class="track-list">
+                            <li>1. グッバイ・ララバイ</li>
+                        </ul>
+                    </div>
+                    <div class="tieup">📺 TVアニメ『ブチ切れ令嬢は報復を誓いました。』EDテーマ</div>
+                </div>
+
+                <!-- 8th -->
+                <div class="card">
+                    <button class="favorite-btn" onclick="toggleFav(this)">🤍</button>
+                    <div>
+                        <span class="badge">8th シングル</span>
+                        <h3>イニミニマニモ</h3>
+                        <div class="date">2025年4月30日 発売</div>
+                        <ul class="track-list">
+                            <li>1. イニミニマニモ</li>
+                        </ul>
+                    </div>
+                    <div class="tieup">📺 TVアニメ『スライム倒して300年、知らないうちにレベルMAXになってました 〜そのに〜』EDテーマ</div>
+                </div>
+
+                <!-- 7th -->
+                <div class="card">
+                    <button class="favorite-btn" onclick="toggleFav(this)">🤍</button>
+                    <div>
+                        <span class="badge">7th シングル</span>
+                        <h3>アウフタクト</h3>
+                        <div class="date">2024年11月20日 発売</div>
+                        <ul class="track-list">
+                            <li>1. アウフタクト</li>
+                        </ul>
+                    </div>
+                    <div class="tieup">📺 TVアニメ『精霊幻想記2』OPテーマ / BS11『アニゲー☆イレブン!』ED</div>
+                </div>
+
+                <!-- 6th -->
+                <div class="card">
+                    <button class="favorite-btn" onclick="toggleFav(this)">🤍</button>
+                    <div>
+                        <span class="badge">6th シングル</span>
+                        <h3>曖昧ガール</h3>
+                        <div class="date">2024年2月28日 発売</div>
+                        <ul class="track-list">
+                            <li>1. 曖昧ガール</li>
+                        </ul>
+                    </div>
+                    <div class="tieup">📺 TVアニメ『佐々木とピーちゃん』EDテーマ</div>
+                </div>
+
+                <!-- 5th -->
+                <div class="card">
+                    <button class="favorite-btn" onclick="toggleFav(this)">🤍</button>
+                    <div>
+                        <span class="badge">5th シングル</span>
+                        <h3>夢で逢えなくても / 指先ハート</h3>
+                        <div class="date">2023年10月25日 発売</div>
+                        <ul class="track-list">
+                            <li>1. 夢で逢えなくても</li>
+                            <li>2. 指先ハート</li>
+                        </ul>
+                    </div>
+                    <div class="tieup">✨ ダブルAサイドシングル</div>
+                </div>
+
+                <!-- 4th -->
+                <div class="card">
+                    <button class="favorite-btn" onclick="toggleFav(this)">🤍</button>
+                    <div>
+                        <span class="badge">4th シングル</span>
+                        <h3>はじまるウェルカム</h3>
+                        <div class="date">2022年10月19日 発売</div>
+                        <ul class="track-list">
+                            <li>1. はじまるウェルカム</li>
+                        </ul>
+                    </div>
+                    <div class="tieup">📺 TVアニメ『新米錬金術師の店舗経営』OPテーマ</div>
+                </div>
+
+                <!-- 3rd -->
+                <div class="card">
+                    <button class="favorite-btn" onclick="toggleFav(this)">🤍</button>
+                    <div>
+                        <span class="badge">3rd シングル</span>
+                        <h3>ジェリーフィッシュな君へ</h3>
+                        <div class="date">2022年4月13日 発売</div>
+                        <ul class="track-list">
+                            <li>1. ジェリーフィッシュな君へ</li>
+                        </ul>
+                    </div>
+                    <div class="tieup">📺 TVアニメ『このヒーラー、めんどくさい』OPテーマ</div>
+                </div>
+
+                <!-- 2nd -->
+                <div class="card">
+                    <button class="favorite-btn" onclick="toggleFav(this)">🤍</button>
+                    <div>
+                        <span class="badge">2nd シングル</span>
+                        <h3>Elder flower / 初恋カラーズ</h3>
+                        <div class="date">2021年8月4日 発売</div>
+                        <ul class="track-list">
+                            <li>1. Elder flower.</li>
+                            <li>2. 初恋カラーズ</li>
+                        </ul>
+                    </div>
+                    <div class="tieup">📺 TVアニメ『精霊幻想記』EDテーマ</div>
+                </div>
+
+                <!-- 1st -->
+                <div class="card">
+                    <button class="favorite-btn" onclick="toggleFav(this)">🤍</button>
+                    <div>
+                        <span class="badge">1st シングル</span>
+                        <h3>本日は晴天なり</h3>
+                        <div class="date">2021年3月3日 発売</div>
+                        <ul class="track-list">
+                            <li>1. 本日は晴天なり</li>
+                        </ul>
+                    </div>
+                    <div class="tieup">🌟 記念すべきアーティストデビューシングル！</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. アルバムセクション -->
+        <div id="album" class="section-content">
+            <div class="grid">
+                <div class="card">
+                    <button class="favorite-btn" onclick="toggleFav(this)">🤍</button>
+                    <div>
+                        <span class="badge">1st フルアルバム</span>
+                        <h3>Do you agree?</h3>
+                        <div class="date">2023年5月3日 発売</div>
+                        <ul class="track-list">
+                            <li>1. 本日は晴天なり</li>
+                            <li>2. NTMUエイリアン</li>
+                            <li>3. ジェリーフィッシュな君へ</li>
+                            <li>4. 初恋カラーズ</li>
+                            <li>5. 夏夢花火 など全10曲</li>
+                        </ul>
+                    </div>
+                    <div class="tieup">💖 あぐりちゃんの魅力がぎっしり詰まった記念すべき1stアルバム！</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. コンセプトミニアルバムセクション -->
+        <div id="mini" class="section-content">
+            <div class="grid">
+                <div class="card">
+                    <button class="favorite-btn" onclick="toggleFav(this)">🤍</button>
+                    <div>
+                        <span class="badge">コンセプトミニアルバム</span>
+                        <h3>Rock&Roll Lady Girl</h3>
+                        <div class="date">2025年10月22日 発売</div>
+                        <ul class="track-list">
+                            <li>1. エンダー</li>
+                            <li>2. 裸足のスタンプ</li>
+                            <li>3. 恋のサチュレーション</li>
+                            <li>4. アンブレラビート</li>
+                            <li>5. Rock&Roll Lady Girl (ほかInst各曲)</li>
+                        </ul>
+                    </div>
+                    <div class="tieup">🎸 “ロックンロール”をコンセプトにした新曲5曲を収録！</div>
+                </div>
+
+                <div class="card">
+                    <button class="favorite-btn" onclick="toggleFav(this)">🤍</button>
+                    <div>
+                        <span class="badge">コンセプトミニアルバム</span>
+                        <h3>失恋モノクローム</h3>
+                        <div class="date">2025年10月22日 発売</div>
+                        <ul class="track-list">
+                            <li>1. 世界の全てがさよなら</li>
+                            <li>2. いつもどおりに</li>
+                            <li>3. 今日が過ぎても</li>
+                            <li>4. 失恋を君に</li>
+                            <li>5. にじんでく (ほかInst各曲)</li>
+                        </ul>
+                    </div>
+                    <div class="tieup">💔 “失恋”をコンセプトにした切なくも魅力的な新曲5曲を収録！</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>🎵 Made for Aguri Onishi Fans 🎵</p>
+    </footer>
+
+    <script>
+        function switchTab(tabId) {
+            // タブボタンのactive切り替え
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // セクションの表示切り替え
+            const sections = document.querySelectorAll('.section-content');
+            sections.forEach(sec => sec.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function toggleFav(btn) {
+            if (btn.textContent === '🤍') {
+                btn.textContent = '💖';
+            } else {
+                btn.textContent = '🤍';
+            }
+        }
+    </script>
+</body>
+</html>
