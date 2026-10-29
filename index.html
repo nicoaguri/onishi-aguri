@@ -4,522 +4,610 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>大西亜玖璃 Discography</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #000000;
-            --card-bg: #161617;
-            --text-primary: #f5f5f7;
+            --bg-color: #f5f5f7;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-primary: #1d1d1f;
             --text-secondary: #86868b;
-            --accent-pink: #ffb6c1;
-            --border-color: #333336;
+            --accent-pink: #e34275;
+            --accent-pink-light: #fdf0f4;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.04);
+            --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.08);
+            --radius-card: 18px;
+            --radius-btn: 980px;
         }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro JP", "SF Pro Display", "SF Pro Icons", "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
 
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Noto Sans JP", "Inter", sans-serif;
+            min-height: 100vh;
+            padding-bottom: 80px;
+            letter-spacing: -0.01em;
+        }
+
+        /* Header */
         header {
+            padding: 60px 20px 30px;
             text-align: center;
-            padding: 80px 20px 40px;
-            background: var(--bg-color);
-            border-bottom: 1px solid var(--border-color);
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        header .subtitle {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-pink);
+            margin-bottom: 6px;
         }
 
         header h1 {
-            margin: 0;
-            font-size: 3rem;
-            font-weight: 600;
-            letter-spacing: -0.015em;
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
         }
 
         header p {
-            margin: 10px 0 0;
-            font-size: 1.2rem;
+            font-size: 0.95rem;
             color: var(--text-secondary);
             font-weight: 400;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 760px;
             margin: 0 auto;
-            padding: 60px 20px;
+            padding: 0 20px;
         }
 
-        /* Apple風タブボタン */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 60px;
+        /* Apple-style Segmented Control (Tabs) */
+        .tabs-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            margin-bottom: 36px;
+            padding: 4px;
+        }
+
+        .tabs-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .segmented-control {
+            display: inline-flex;
+            background: rgba(120, 120, 128, 0.12);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 3px;
+            border-radius: 12px;
+            margin: 0 auto;
+            min-width: max-content;
         }
 
         .tab-btn {
-            background: #1d1d1f;
+            background: transparent;
             border: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            padding: 10px 24px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            border-radius: 980px;
-            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        .tab-btn:hover {
             color: var(--text-primary);
-            background: #2d2d30;
+            padding: 8px 18px;
+            border-radius: 9px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            white-space: nowrap;
         }
 
         .tab-btn.active {
-            color: #000;
-            background-color: var(--text-primary);
+            background: #ffffff;
+            color: var(--text-primary);
             font-weight: 600;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04);
         }
 
-        /* タブコンテンツ */
-        .tab-content {
+        /* Content Sections */
+        .section-content {
             display: none;
+            animation: fadeIn 0.4s ease-out;
         }
 
-        .tab-content.active {
+        .section-content.active {
             display: block;
-            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* グリッドレイアウト */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        /* カードデザイン */
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
+        /* Discography Cards */
+        .disc-list {
             display: flex;
             flex-direction: column;
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-card);
+            padding: 28px;
+            box-shadow: var(--shadow-subtle);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .card:hover {
-            transform: translateY(-4px);
-            border-color: #555;
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
         }
 
-        .card-body {
-            padding: 28px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .badge-row {
+        .card-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
+            align-items: baseline;
+            margin-bottom: 10px;
         }
 
-        .release-type {
-            font-size: 0.75rem;
+        .badge {
+            font-size: 0.72rem;
             font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--accent-pink);
+            background: var(--accent-pink-light);
             padding: 4px 10px;
             border-radius: 6px;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
         }
-
-        .single .release-type { background-color: rgba(10, 132, 255, 0.15); color: #0a84ff; }
-        .album .release-type { background-color: rgba(191, 90, 242, 0.15); color: #bf5af2; }
-        .mini-album .release-type { background-color: rgba(255, 159, 10, 0.15); color: #ff9f0a; }
 
         .release-date {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-secondary);
+            font-weight: 400;
         }
 
-        .item-title {
+        .card h3 {
             font-size: 1.35rem;
-            font-weight: 600;
-            margin: 0 0 10px 0;
+            font-weight: 700;
             letter-spacing: -0.01em;
+            color: var(--text-primary);
+            margin-bottom: 14px;
         }
 
-        .tie-up {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+        /* Streaming Buttons */
+        .streaming-links {
+            display: flex;
+            gap: 10px;
             margin-bottom: 20px;
-            line-height: 1.4;
         }
 
-        /* アコーディオン設定（Apple風） */
-        details {
-            margin-top: auto;
-            border-top: 1px solid var(--border-color);
-            padding-top: 12px;
-        }
-
-        summary {
-            font-size: 0.85rem;
-            font-weight: 500;
-            cursor: pointer;
-            user-select: none;
-            color: var(--accent-pink);
-            outline: none;
-            transition: opacity 0.2s;
-            list-style: none;
-        }
-
-        summary::-webkit-details-marker {
-            display: none;
-        }
-
-        summary:hover {
-            opacity: 0.8;
-        }
-
-        summary::after {
-            content: " ＋";
-            float: right;
-        }
-
-        details[open] summary::after {
-            content: " －";
-        }
-
-        .track-list {
-            padding: 12px 0 0 0;
-            margin: 0;
-            list-style: none;
+        .stream-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: var(--radius-btn);
             font-size: 0.8rem;
+            font-weight: 500;
+            text-decoration: none;
+            background: rgba(0, 0, 0, 0.04);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
         }
 
-        .track-list li {
-            padding: 6px 0;
-            color: #d1d1d6;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+        .stream-btn:hover {
+            background: rgba(0, 0, 0, 0.08);
+            transform: scale(1.02);
         }
 
-        .track-list li:last-child {
+        /* Track List */
+        .track-list {
+            list-style: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 14px;
+            margin-top: 14px;
+        }
+
+        .track-item {
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .track-item:last-child {
             border-bottom: none;
         }
-        
-        .track-list .credit {
-            display: block;
-            font-size: 0.72rem;
+
+        .track-title {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .track-credit {
+            font-size: 0.78rem;
             color: var(--text-secondary);
-            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        .tieup {
+            margin-top: 16px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            background: rgba(0, 0, 0, 0.02);
+            padding: 10px 14px;
+            border-radius: 10px;
+            border-left: 2.5px solid var(--accent-pink);
         }
 
         footer {
             text-align: center;
-            padding: 60px 20px;
-            font-size: 0.85rem;
+            margin-top: 60px;
+            font-size: 0.8rem;
             color: var(--text-secondary);
-            border-top: 1px solid var(--border-color);
-            margin-top: 80px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+            .card { padding: 20px; }
+            .tabs-container { display: flex; justify-content: flex-start; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>大西亜玖璃 Discography</h1>
-        <p>Solo Artist Activity 2021 - Present</p>
+        <div class="subtitle">Discography</div>
+        <h1>大西亜玖璃</h1>
+        <p>公式リリース楽曲アーカイブ</p>
     </header>
 
     <div class="container">
-        
-        <!-- タブボタン -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('singles')">シングル</button>
-            <button class="tab-btn" onclick="switchTab('albums')">アルバム</button>
-            <button class="tab-btn" onclick="switchTab('mini-albums')">コンセプトミニアルバム</button>
+        <!-- Segmented Control Tabs -->
+        <div class="tabs-container">
+            <div class="segmented-control">
+                <button class="tab-btn active" onclick="switchTab('single', this)">シングル</button>
+                <button class="tab-btn" onclick="switchTab('album', this)">アルバム</button>
+                <button class="tab-btn" onclick="switchTab('mini', this)">コンセプトミニアルバム</button>
+            </div>
         </div>
-        
-        <!-- ==========================================
-             シングル TAB (1st ~ 9th)
-             ========================================== -->
-        <div id="singles" class="tab-content active">
-            <div class="grid">
-                
-                <!-- 1st Single -->
-                <div class="card single">
-                    <div class="card-body">
-                        <div class="badge-row">
-                            <span class="release-type">1st Single</span>
-                            <span class="release-date">2021/03/03</span>
-                        </div>
-                        <div class="item-title">本日は晴天なり</div>
-                        <div class="tie-up">ソロアーティストデビューシングル</div>
-                        <details>
-                            <summary>収録曲・クレジットを見る</summary>
-                            <ul class="track-list">
-                                <li>1. 本日は晴天なり<span class="credit">作詞・作曲・編曲：鶴崎輝一</span></li>
-                                <li>2. Ready to fly<span class="credit">作詞：只野菜摘 / 作曲：櫻口葵子 / 編曲：佐藤清喜</span></li>
-                            </ul>
-                        </details>
+
+        <!-- 1. シングル -->
+        <div id="single" class="section-content active">
+            <div class="disc-list">
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">1st Single</span>
+                        <span class="release-date">2021.03.03</span>
                     </div>
+                    <h3>本日は晴天なり</h3>
+                    <div class="streaming-links">
+                        <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" class="stream-btn"> Apple Music</a>
+                        <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" class="stream-btn"> Spotify</a>
+                    </div>
+                    <ul class="track-list">
+                        <li class="track-item">
+                            <span class="track-title">1. 本日は晴天なり</span>
+                            <span class="track-credit">作詞・作曲・編曲：鶴﨑輝一</span>
+                        </li>
+                    </ul>
+                    <div class="tieup">ソロアーティストデビューシングル</div>
                 </div>
 
-                <!-- 2nd Single -->
-                <div class="card single">
-                    <div class="card-body">
-                        <div class="badge-row">
-                            <span class="release-type">2nd Single</span>
-                            <span class="release-date">2021/08/04</span>
-                        </div>
-                        <div class="item-title">Elder flower／初恋カラーズ</div>
-                        <div class="tie-up">TVアニメ「精霊幻想記」EDテーマ</div>
-                        <details>
-                            <summary>収録曲・クレジットを見る</summary>
-                            <ul class="track-list">
-                                <li>1. Elder flower<span class="credit">作詞・作曲・編曲：hisakuni</span></li>
-                                <li>2. 初恋カラーズ<span class="credit">作詞・作曲・編曲：鶴崎輝一</span></li>
-                            </ul>
-                        </details>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">2nd Single</span>
+                        <span class="release-date">2021.08.04</span>
                     </div>
+                    <h3>Elder flower / 初恋カラーズ</h3>
+                    <div class="streaming-links">
+                        <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" class="stream-btn"> Apple Music</a>
+                        <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" class="stream-btn"> Spotify</a>
+                    </div>
+                    <ul class="track-list">
+                        <li class="track-item">
+                            <span class="track-title">1. Elder flower</span>
+                            <span class="track-credit">作詞・作曲・編曲：Motokiyo</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">2. 初恋カラーズ</span>
+                            <span class="track-credit">作詞・作曲・編曲：鶴﨑輝一</span>
+                        </li>
+                    </ul>
+                    <div class="tieup">TVアニメ『精霊幻想記』EDテーマ（Elder flower）</div>
                 </div>
 
-                <!-- 3rd Single -->
-                <div class="card single">
-                    <div class="card-body">
-                        <div class="badge-row">
-                            <span class="release-type">3rd Single</span>
-                            <span class="release-date">2022/04/13</span>
-                        </div>
-                        <div class="item-title">ジェリーフィッシュな君へ</div>
-                        <div class="tie-up">TVアニメ「このヒーラー、めんどくさい」OPテーマ</div>
-                        <details>
-                            <summary>収録曲・クレジットを見る</summary>
-                            <ul class="track-list">
-                                <li>1. ジェリーフィッシュな君へ<span class="credit">作詞・作曲：俊龍 / 編曲：Sizuk</span></li>
-                                <li>2. Love・Me・Do<span class="credit">作詞：東乃カノ / 作曲・編曲：木村孝明</span></li>
-                            </ul>
-                        </details>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">3rd Single</span>
+                        <span class="release-date">2022.04.13</span>
                     </div>
+                    <h3>ジェリーフィッシュな君へ</h3>
+                    <div class="streaming-links">
+                        <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" class="stream-btn"> Apple Music</a>
+                        <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" class="stream-btn"> Spotify</a>
+                    </div>
+                    <ul class="track-list">
+                        <li class="track-item">
+                            <span class="track-title">1. ジェリーフィッシュな君へ</span>
+                            <span class="track-credit">作詞・作曲：俊龍 / 編曲：Sizuk</span>
+                        </li>
+                    </ul>
+                    <div class="tieup">TVアニメ『このヒーラー、めんどくさい』OPテーマ</div>
                 </div>
 
-                <!-- 4th Single -->
-                <div class="card single">
-                    <div class="card-body">
-                        <div class="badge-row">
-                            <span class="release-type">4th Single</span>
-                            <span class="release-date">2022/10/19</span>
-                        </div>
-                        <div class="item-title">はじまるウェルカム</div>
-                        <div class="tie-up">TVアニメ「新米錬金術師の店舗経営」OPテーマ</div>
-                        <details>
-                            <summary>収録曲・クレジットを見る</summary>
-                            <ul class="track-list">
-                                <li>1. はじまるウェルカム<span class="credit">作詞：ARAKI / 作曲・編曲：木下龍平</span></li>
-                                <li>2. 結んで、ひらいて<span class="credit">作詞・作曲・編曲：鶴崎輝一</span></li>
-                            </ul>
-                        </details>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">4th Single</span>
+                        <span class="release-date">2022.10.19</span>
                     </div>
+                    <h3>はじまるウェルカム</h3>
+                    <div class="streaming-links">
+                        <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" class="stream-btn"> Apple Music</a>
+                        <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" class="stream-btn"> Spotify</a>
+                    </div>
+                    <ul class="track-list">
+                        <li class="track-item">
+                            <span class="track-title">1. はじまるウェルカム</span>
+                            <span class="track-credit">作詞：ARAKI / 作曲・編曲：KanadeYUK</span>
+                        </li>
+                    </ul>
+                    <div class="tieup">TVアニメ『新米錬金術師の店舗経営』OPテーマ</div>
                 </div>
 
-                <!-- 5th Single -->
-                <div class="card single">
-                    <div class="card-body">
-                        <div class="badge-row">
-                            <span class="release-type">5th Single</span>
-                            <span class="release-date">2023/10/25</span>
-                        </div>
-                        <div class="item-title">夢で逢えなくても／指先ハート</div>
-                        <div class="tie-up">両A面シングル</div>
-                        <details>
-                            <summary>収録曲・クレジットを見る</summary>
-                            <ul class="track-list">
-                                <li>1. 夢で逢えなくても<span class="credit">作詞・作曲：habana / 編曲：鶴崎輝一</span></li>
-                                <li>2. 指先ハート<span class="credit">作詞：東乃カノ / 作曲・編曲：木村孝明</span></li>
-                            </ul>
-                        </details>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">5th Single</span>
+                        <span class="release-date">2023.10.25</span>
                     </div>
+                    <h3>夢で逢えなくても / 指先ハート</h3>
+                    <div class="streaming-links">
+                        <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" class="stream-btn"> Apple Music</a>
+                        <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" class="stream-btn"> Spotify</a>
+                    </div>
+                    <ul class="track-list">
+                        <li class="track-item">
+                            <span class="track-title">1. 夢で逢えなくても</span>
+                            <span class="track-credit">作詞・作曲・編曲：鶴﨑輝一</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">2. 指先ハート</span>
+                            <span class="track-credit">作詞：東乃カノ / 作曲・編曲：持田裕輔</span>
+                        </li>
+                    </ul>
+                    <div class="tieup">ダブルAサイドシングル</div>
                 </div>
 
-                <!-- 6th Single -->
-                <div class="card single">
-                    <div class="card-body">
-                        <div class="badge-row">
-                            <span class="release-type">6th Single</span>
-                            <span class="release-date">2024/02/28</span>
-                        </div>
-                        <div class="item-title">曖昧ガール</div>
-                        <div class="tie-up">TVアニメ「佐々木とピーちゃん」EDテーマ</div>
-                        <details>
-                            <summary>収録曲・クレジットを見る</summary>
-                            <ul class="track-list">
-                                <li>1. 曖昧ガール<span class="credit">作詞・作曲：佐野仁美 / 編曲：渡邉俊哉</span></li>
-                                <li>2. 恋よりずっと Only you<span class="credit">作詞：東乃カノ / 作曲・編曲：木村孝明</span></li>
-                            </ul>
-                        </details>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">6th Single</span>
+                        <span class="release-date">2024.02.28</span>
                     </div>
+                    <h3>曖昧ガール</h3>
+                    <div class="streaming-links">
+                        <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" class="stream-btn"> Apple Music</a>
+                        <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" class="stream-btn"> Spotify</a>
+                    </div>
+                    <ul class="track-list">
+                        <li class="track-item">
+                            <span class="track-title">1. 曖昧ガール</span>
+                            <span class="track-credit">作詞・作曲：佐野仁美 / 編曲：渡辺拓也</span>
+                        </li>
+                    </ul>
+                    <div class="tieup">TVアニメ『佐々木とピーちゃん』EDテーマ</div>
                 </div>
 
-                <!-- 7th Single -->
-                <div class="card single">
-                    <div class="card-body">
-                        <div class="badge-row">
-                            <span class="release-type">7th Single</span>
-                            <span class="release-date">2024/11/20</span>
-                        </div>
-                        <div class="item-title">アウフタクト</div>
-                        <div class="tie-up">TVアニメ「精霊幻想記2」OPテーマ</div>
-                        <details>
-                            <summary>収録曲・クレジットを見る</summary>
-                            <ul class="track-list">
-                                <li>1. アウフタクト<span class="credit">作詞・作曲・編曲：鶴崎輝一</span></li>
-                                <li>2. Fall in you<span class="credit">作詞・作曲・編曲：近藤圭一</span></li>
-                            </ul>
-                        </details>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">7th Single</span>
+                        <span class="release-date">2024.11.20</span>
                     </div>
+                    <h3>アウフタクト</h3>
+                    <div class="streaming-links">
+                        <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" class="stream-btn"> Apple Music</a>
+                        <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" class="stream-btn"> Spotify</a>
+                    </div>
+                    <ul class="track-list">
+                        <li class="track-item">
+                            <span class="track-title">1. アウフタクト</span>
+                            <span class="track-credit">作詞・作曲・編曲：直江香世子</span>
+                        </li>
+                    </ul>
+                    <div class="tieup">TVアニメ『精霊幻想記2』OPテーマ</div>
                 </div>
 
-                <!-- 8th Single -->
-                <div class="card single">
-                    <div class="card-body">
-                        <div class="badge-row">
-                            <span class="release-type">8th Single</span>
-                            <span class="release-date">2025/04/30</span>
-                        </div>
-                        <div class="item-title">イニミニマニモ</div>
-                        <div class="tie-up">TVアニメ「スライム倒して300年…」EDテーマ</div>
-                        <details>
-                            <summary>収録曲・クレジットを見る</summary>
-                            <ul class="track-list">
-                                <li>1. イニミニマニモ<span class="credit">作詞：鶴崎輝一 / 作曲：habana / 編曲：鶴崎輝一</span></li>
-                                <li>2. ときめきプロローグ<span class="credit">作詞・作曲・編曲：サトダユーリ</span></li>
-                            </ul>
-                        </details>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">8th Single</span>
+                        <span class="release-date">2025.04.30</span>
                     </div>
+                    <h3>イニミニマニモ</h3>
+                    <div class="streaming-links">
+                        <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" class="stream-btn"> Apple Music</a>
+                        <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" class="stream-btn"> Spotify</a>
+                    </div>
+                    <ul class="track-list">
+                        <li class="track-item">
+                            <span class="track-title">1. イニミニマニモ</span>
+                            <span class="track-credit">作詞・作曲・編曲：鶴﨑輝一</span>
+                        </li>
+                    </ul>
+                    <div class="tieup">TVアニメ『スライム倒して300年、知らないうちにレベルMAXになってました 〜そのに〜』EDテーマ</div>
                 </div>
 
-                <!-- 9th Single -->
-                <div class="card single">
-                    <div class="card-body">
-                        <div class="badge-row">
-                            <span class="release-type">9th Single</span>
-                            <span class="release-date">2026/08/05</span>
-                        </div>
-                        <div class="item-title">グッバイ・ララバイ</div>
-                        <div class="tie-up">TVアニメ「ブチ切れ令嬢は報復を誓いました。」EDテーマ</div>
-                        <details>
-                            <summary>収録曲・クレジットを見る</summary>
-                            <ul class="track-list">
-                                <li>1. グッバイ・ララバイ<span class="credit">作詞：東乃カノ / 作曲・編曲：habana</span></li>
-                                <li>2. わたしシュガースパイス<span class="credit">作詞：東乃カノ / 作曲・編曲：木村孝明</span></li>
-                            </ul>
-                        </details>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">9th Single</span>
+                        <span class="release-date">2026.08.05</span>
                     </div>
+                    <h3>グッバイ・ララバイ</h3>
+                    <div class="streaming-links">
+                        <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" class="stream-btn"> Apple Music</a>
+                        <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" class="stream-btn"> Spotify</a>
+                    </div>
+                    <ul class="track-list">
+                        <li class="track-item">
+                            <span class="track-title">1. グッバイ・ララバイ</span>
+                            <span class="track-credit">作詞・作曲・編曲：未定</span>
+                        </li>
+                    </ul>
+                    <div class="tieup">TVアニメ『ブチ切れ令嬢は報復を誓いました。』EDテーマ</div>
                 </div>
 
             </div>
         </div>
 
-        <!-- ==========================================
-             アルバム TAB
-             ========================================== -->
-        <div id="albums" class="tab-content">
-            <div class="grid">
-                
-                <!-- 1st Album -->
-                <div class="card album">
-                    <div class="card-body">
-                        <div class="badge-row">
-                            <span class="release-type">1st Album</span>
-                            <span class="release-date">2023/05/03</span>
-                        </div>
-                        <div class="item-title">Do you agree?</div>
-                        <div class="tie-up">待望の1stフルアルバム（全10曲収録）</div>
-                        <details>
-                            <summary>収録曲・クレジットを見る</summary>
-                            <ul class="track-list">
-                                <li>1. 本日は晴天なり<span class="credit">鶴崎輝一</span></li>
-                                <li>2. NTMUエイリアン<span class="credit">木下龍平</span></li>
-                                <li>3. ジェリーフィッシュな君へ<span class="credit">俊龍 / Sizuk</span></li>
-                                <li>4. 初恋カラーズ<span class="credit">鶴崎輝一</span></li>
-                                <li>5. 夏夢花火<span class="credit">磯谷佳江 / 小野貴光</span></li>
-                                <li>6. 花と青空<span class="credit">高橋修平</span></li>
-                                <li>7. Elder flower<span class="credit">hisakuni</span></li>
-                                <li>8. 恋の視線<span class="credit">千葉タダシゲ</span></li>
-                                <li>9. はじまるウェルカム<span class="credit">ARAKI / 木下龍平</span></li>
-                                <li>10. Do you agree?<span class="credit">鶴崎輝一</span></li>
-                            </ul>
-                        </details>
+        <!-- 2. アルバム -->
+        <div id="album" class="section-content">
+            <div class="disc-list">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">1st Album</span>
+                        <span class="release-date">2023.05.03</span>
                     </div>
+                    <h3>Do you agree?</h3>
+                    <div class="streaming-links">
+                        <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" class="stream-btn"> Apple Music</a>
+                        <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" class="stream-btn"> Spotify</a>
+                    </div>
+                    <ul class="track-list">
+                        <li class="track-item">
+                            <span class="track-title">1. 本日は晴天なり</span>
+                            <span class="track-credit">作詞・作曲・編曲：鶴﨑輝一</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">2. 恋の生まれる日</span>
+                            <span class="track-credit">作詞：東乃カノ / 作曲・編曲：持田裕輔</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">3. 初恋カラーズ</span>
+                            <span class="track-credit">作詞・作曲・編曲：鶴﨑輝一</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">4. ジェリーフィッシュな君へ</span>
+                            <span class="track-credit">作詞・作曲：俊龍 / 編曲：Sizuk</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">5. 夢のまた夢</span>
+                            <span class="track-credit">作詞・作曲・編曲：鶴﨑輝一</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">6. Elder flower</span>
+                            <span class="track-credit">作詞・作曲・編曲：Motokiyo</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">7. 夏夢花火</span>
+                            <span class="track-credit">作詞・作曲・編曲：Kent Ito</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">8. はじまるウェルカム</span>
+                            <span class="track-credit">作詞：ARAKI / 作曲・編曲：KanadeYUK</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">9. NTMUエイリアン</span>
+                            <span class="track-credit">作詞・作曲・編曲：鶴﨑輝一</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">10. Do you agree?</span>
+                            <span class="track-credit">作詞：大西亜玖璃 / 作曲・編曲：鶴﨑輝一</span>
+                        </li>
+                    </ul>
+                    <div class="tieup">1stフルアルバム</div>
                 </div>
-
             </div>
         </div>
 
-        <!-- ==========================================
-             コンセプトミニアルバム TAB
-             ========================================== -->
-        <div id="mini-albums" class="tab-content">
-            <div class="grid">
-                
-                <!-- Mini Album 1 -->
-                <div class="card mini-album">
-                    <div class="card-body">
-                        <div class="badge-row">
-                            <span class="release-type">Mini Album</span>
-                            <span class="release-date">2025/10/22</span>
-                        </div>
-                        <div class="item-title">Rock&Roll Lady Girl</div>
-                        <div class="tie-up">コンセプト：ロックンロール</div>
-                        <details>
-                            <summary>収録曲・クレジットを見る</summary>
-                            <ul class="track-list">
-                                <li>1. エンダー<span class="credit">鶴崎輝一</span></li>
-                                <li>2. 裸足のスタンプ<span class="credit">金子麻友美 / habana</span></li>
-                                <li>3. 恋のサチュレーション<span class="credit">井上トモノリ / 佐藤清喜</span></li>
-                                <li>4. アンブレラビート<span class="credit">東乃カノ / 松坂康司</span></li>
-                                <li>5. Rock&Roll Lady Girl<span class="credit">金子麻友美 / habana / 佐藤清喜</span></li>
-                            </ul>
-                        </details>
+        <!-- 3. コンセプトミニアルバム -->
+        <div id="mini" class="section-content">
+            <div class="disc-list">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">Concept Mini Album</span>
+                        <span class="release-date">2025.10.22</span>
                     </div>
+                    <h3>Rock&Roll Lady Girl</h3>
+                    <div class="streaming-links">
+                        <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" class="stream-btn"> Apple Music</a>
+                        <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" class="stream-btn"> Spotify</a>
+                    </div>
+                    <ul class="track-list">
+                        <li class="track-item">
+                            <span class="track-title">1. エンダー</span>
+                            <span class="track-credit">作詞・作曲・編曲：鶴﨑輝一</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">2. 裸足のスタンプ</span>
+                            <span class="track-credit">作詞・作曲・編曲：宮崎誠</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">3. 恋のサチュレーション</span>
+                            <span class="track-credit">作詞・作曲・編曲：Motokiyo</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">4. アンブレラビート</span>
+                            <span class="track-credit">作詞・作曲・編曲：直江香世子</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">5. Rock&Roll Lady Girl</span>
+                            <span class="track-credit">作詞・作曲・編曲：鶴﨑輝一</span>
+                        </li>
+                    </ul>
+                    <div class="tieup">コンセプト：ロックンロール</div>
                 </div>
 
-                <!-- Mini Album 2 -->
-                <div class="card mini-album">
-                    <div class="card-body">
-                        <div class="badge-row">
-                            <span class="release-type">Mini Album</span>
-                            <span class="release-date">2025/10/22</span>
-                        </div>
-                        <div class="item-title">失恋モノクローム</div>
-                        <div class="tie-up">コンセプト：失恋</div>
-                        <details>
-                            <summary>収録曲・クレジットを見る</summary>
-                            <ul class="track-list">
-                                <li>1. 世界の全てがさよなら<span class="credit">habana</span></li>
-                                <li>2. いつもどおりに<span class="credit">渡部紫緒 / 賀佐泰洋</span></li>
-                                <li>3. 今日が過ぎても<span class="credit">成本智美 / 近藤圭一</span></li>
-                                <li>4. 失恋を君に<span class="credit">金子麻友美 / 井上トモノリ / 佐藤清喜</span></li>
-                                <li>5. にじんでく<span class="credit">鶴崎輝一</span></li>
-                            </ul>
-                        </details>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="badge">Concept Mini Album</span>
+                        <span class="release-date">2025.10.22</span>
                     </div>
+                    <h3>失恋モノクローム</h3>
+                    <div class="streaming-links">
+                        <a href="https://music.apple.com/jp/artist/%E5%A4%A7%E8%A5%BF%E4%BA%9C%E7%8E%9F/1547849996" target="_blank" class="stream-btn"> Apple Music</a>
+                        <a href="https://open.spotify.com/intl-ja/artist/2vF5xR8qD2jJ9U8aV6u0z7" target="_blank" class="stream-btn"> Spotify</a>
+                    </div>
+                    <ul class="track-list">
+                        <li class="track-item">
+                            <span class="track-title">1. 世界の全てがさよなら</span>
+                            <span class="track-credit">作詞・作曲・編曲：鶴﨑輝一</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">2. いつもどおりに</span>
+                            <span class="track-credit">作詞・作曲・編曲：佐野仁美</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">3. 今日が過ぎても</span>
+                            <span class="track-credit">作詞・作曲・編曲：東乃カノ</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">4. 失恋を君に</span>
+                            <span class="track-credit">作詞・作曲・編曲：鶴﨑輝一</span>
+                        </li>
+                        <li class="track-item">
+                            <span class="track-title">5. にじんでく</span>
+                            <span class="track-credit">作詞・作曲・編曲：直江香世子</span>
+                        </li>
+                    </ul>
+                    <div class="tieup">コンセプト：失恋</div>
                 </div>
-
             </div>
         </div>
-
     </div>
 
     <footer>
@@ -527,16 +615,14 @@
     </footer>
 
     <script>
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
+        function switchTab(tabId, btnElement) {
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
 
+            const sections = document.querySelectorAll('.section-content');
+            sections.forEach(sec => sec.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
         }
     </script>
 </body>
